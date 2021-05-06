@@ -18,7 +18,10 @@ public class PaymentMethod extends AuditModel {
     @JoinTable(name = "user_payment_methods",
     joinColumns = {@JoinColumn(name = "payment_method_id")},
     inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private List<User> userPaymentMethods;
+    private List<User> users;
+
+    @NotNull
+    private Long cardNumber;
 
     @NotNull
     private String cvv;
@@ -27,6 +30,12 @@ public class PaymentMethod extends AuditModel {
     private Date expiryDate;
 
     public PaymentMethod() {
+    }
+
+    public PaymentMethod(@NotNull Long cardNumber,@NotNull String cvv,@NotNull Date expiryDate) {
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+        this.expiryDate = expiryDate;
     }
 
     public Long getId() {
@@ -39,11 +48,11 @@ public class PaymentMethod extends AuditModel {
     }
 
     public List<User> getUserPaymentMethods() {
-        return userPaymentMethods;
+        return users;
     }
 
     public PaymentMethod setUserPaymentMethods(List<User> userPaymentMethods) {
-        this.userPaymentMethods = userPaymentMethods;
+        this.users = userPaymentMethods;
         return this;
     }
 
@@ -62,6 +71,15 @@ public class PaymentMethod extends AuditModel {
 
     public PaymentMethod setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+        return this;
+    }
+
+    public Long getCardNumber() {
+        return cardNumber;
+    }
+
+    public PaymentMethod setCardNumber(Long cardNumber) {
+        this.cardNumber = cardNumber;
         return this;
     }
 }

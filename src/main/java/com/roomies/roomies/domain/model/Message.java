@@ -24,12 +24,12 @@ public class Message extends AuditModel{
     private User sender;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "conversation_id",nullable = false)
+    @JoinColumn(name = "conversation_landlord_id",nullable = false)
     @JsonIgnore
     private Conversation landlordConversation;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "conversation_id",nullable = false)
+    @JoinColumn(name = "conversation_leaseholder_id",nullable = false)
     @JsonIgnore
     private Conversation leaseholderConversation;
 

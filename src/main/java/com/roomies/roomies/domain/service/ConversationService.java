@@ -6,10 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface ConversationService {
-    Page<Conversation> getAllConversations(Pageable pageable);
+    Page<Conversation> getAllConversationsByUserId(Long userId,Pageable pageable);
     Conversation getConversationById(Long conversationId);
     Conversation createConversation(Conversation conversation);
-    Conversation updateConversation(Long conversationId, Conversation conversationRequest);
     ResponseEntity<?> deleteConversation(Long conversationId);
 
 }

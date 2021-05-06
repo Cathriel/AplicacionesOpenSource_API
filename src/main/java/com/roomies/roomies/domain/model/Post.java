@@ -39,7 +39,7 @@ public class Post extends AuditModel{
     @JoinTable(name = "favorite_posts",
     joinColumns = {@JoinColumn(name = "post_id")},
     inverseJoinColumns = {@JoinColumn(name = "leaseholder_id")})
-    private List<Leaseholder> leaseholderFavouritePosts;
+    private List<Leaseholder> leaseholders;
 
     public Post() {
     }
@@ -117,6 +117,6 @@ public class Post extends AuditModel{
     }
 
     public List<Leaseholder> getLeaseholderFavouritePosts() {
-        return leaseholderFavouritePosts;
+        return leaseholders;
     }
 }

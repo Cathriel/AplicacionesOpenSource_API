@@ -21,12 +21,12 @@ public class Conversation extends AuditModel{
     private User sender;
 
     //private Long receiverId;
-
+/*
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="user_id",nullable = false)
     @JsonIgnore
     private User receiver;
-
+*/
     public Conversation() {
     }
 
@@ -47,7 +47,7 @@ public class Conversation extends AuditModel{
         this.sender = sender;
         return this;
     }
-
+/*
     public User getReceiver() {
         return receiver;
     }
@@ -55,5 +55,5 @@ public class Conversation extends AuditModel{
     public Conversation setReceiver(User receiver) {
         this.receiver = receiver;
         return this;
-    }
+    }*/
 }

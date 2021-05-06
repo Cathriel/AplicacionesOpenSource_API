@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 public interface PostService {
     Page<Post> getAllPosts(Pageable pageable);
     Post getPostById(Long postId);
-    Post createPost(Post post);
+    Post createPost(Long landlordId,Post post);
     Post updatePost(Long postId, Post postRequest);
     ResponseEntity<?> deletePost(Long postId);
     Page<Leaseholder> getAllLeaseholdersByPostId(Long postId, Pageable pageable);

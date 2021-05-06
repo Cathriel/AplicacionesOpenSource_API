@@ -57,8 +57,7 @@ public class User extends AuditModel {
     @NotNull
     protected String password;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-    cascade ={CascadeType.PERSIST,CascadeType.MERGE},
+    @ManyToMany(fetch = FetchType.LAZY, cascade ={CascadeType.PERSIST,CascadeType.MERGE},
     mappedBy = "users")
     private List<PaymentMethod> userPaymentMethods;
 

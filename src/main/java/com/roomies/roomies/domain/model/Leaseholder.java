@@ -21,13 +21,13 @@ public class Leaseholder extends User{
 
     public boolean isTaggedWith(Post post){ return this.getFavouritePosts().contains(post);}
 
-    public Leaseholder tagWith(Post post){
+    public Leaseholder assignWith(Post post){
         if(!this.isTaggedWith(post))
             this.getFavouritePosts().add(post);
         return this;
     }
 
-    public Leaseholder unTagWith(Post post){
+    public Leaseholder unAssignWith(Post post){
         if(this.isTaggedWith(post))
             this.getFavouritePosts().remove(post);
         return this;

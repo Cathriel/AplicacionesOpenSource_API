@@ -12,5 +12,7 @@ public interface UserService {
     User createUser(User user);
     User updateUser(Long userId,User userRequest);
     ResponseEntity<?> deleteUser(Long userId);
-    Page<PaymentMethod> getAllPaymentMethodsByUserId(Long userId, Pageable pageable);
+    User assignPaymentMethodUser(Long paymentMethodId,Long userId);
+    User unAssignPaymentMethodUser(Long paymentMethodId,Long userId);
+    Page<User> getAllUserByPaymentMethodId(Long userId, Pageable pageable);
 }
