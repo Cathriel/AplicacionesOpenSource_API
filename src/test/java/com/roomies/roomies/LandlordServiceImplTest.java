@@ -1,19 +1,17 @@
 package com.roomies.roomies;
 
 import com.roomies.roomies.domain.model.Landlord;
-import com.roomies.roomies.domain.model.Post;
-import com.roomies.roomies.domain.model.User;
+import com.roomies.roomies.domain.model.Leaseholder;
+import com.roomies.roomies.domain.repository.*;
 import com.roomies.roomies.domain.repository.LandlordRepository;
-import com.roomies.roomies.domain.repository.LeaseholderRepository;
-import com.roomies.roomies.domain.repository.PostRepository;
-import com.roomies.roomies.domain.repository.ReviewRepository;
+import com.roomies.roomies.domain.service.LandlordService;
 import com.roomies.roomies.domain.service.LandlordService;
 import com.roomies.roomies.domain.service.LeaseholderService;
 import com.roomies.roomies.domain.service.PostService;
 import com.roomies.roomies.exception.ResourceNotFoundException;
+import com.roomies.roomies.service.*;
 import com.roomies.roomies.service.LandlordServiceImpl;
-import com.roomies.roomies.service.LeaseholderServiceImpl;
-import com.roomies.roomies.service.PostServiceImpl;
+import com.roomies.roomies.service.LandlordServiceImpl;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,64 +29,68 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class PostServiceImplTest {
-    @MockBean
-    private PostRepository postRepository;
-
+public class LandlordServiceImplTest {
     @MockBean
     private LandlordRepository landlordRepository;
 
     @MockBean
+    private PostRepository postRepository;
+
+    @MockBean
     private LeaseholderRepository leaseholderRepository;
 
+
     @Autowired
-    private PostService postService;
+    private LandlordService landlordService;
 
     @TestConfiguration
-    static class PostServiceImplTestConfiguration {
+    static class LandlordServiceImplTestConfiguration {
+        @Bean
+        public LandlordService landlordService(){
+            return new LandlordServiceImpl();
+        }
+
         @Bean
         public PostService postService(){
             return new PostServiceImpl();
         }
 
         @Bean
-        public LandlordService landlordService(){return new LandlordServiceImpl();}
+        public LeaseholderService leaseholderService(){
+            return new LeaseholderServiceImpl();
+        }
 
-        @Bean
-        public LeaseholderService leaseholderService(){return new LeaseholderServiceImpl();}
     }
 
     @Test
-    @DisplayName("When getPostByTitle With Valid Title Then Returns Post")
-    public void whenGetPostByTitleWithValidTitleThenReturnsTitle(){
+    @DisplayName("When getLandlordByName With Valid Name Then Returns Landlord")
+    public void whenGetLandlordByNameWithValidNameThenReturnsName(){
 
         //Arrange
-        String title= "Te odio IntelIJ >:c";
-        Post post=new Post().setId(1L).setTitle(title);
+        String name= "Te odio IntelIJ >:c";
+        Landlord landlord= (Landlord) new Landlord().setId(1L).setName(name);
 
-        //postRepository.save(title);
-
-        when(postRepository.findByTitle(title)).thenReturn(Optional.of(post));
+        when(landlordRepository.findByName(name)).thenReturn(Optional.of(landlord));
 
         //Act
-        Post foundPost=postService.getPostByTitle(title);
+        Landlord foundLandlord= (Landlord) landlordService.getLandlordByName(name);
 
         //Assert
-        assertThat(foundPost.getTitle()).isEqualTo(title);
+        assertThat(foundLandlord.getName()).isEqualTo(name);
     }
 
     @Test
-    @DisplayName("When getPostByTitle With Invalid Title Then Returns Resource Not Found Exception")
-    public void whenGetPostByTitleWithInvalidTitleThenReturnsResourceNotFoundException(){
+    @DisplayName("When getLandlordByName With Invalid Name Then Returns Resource Not Found Exception")
+    public void whenGetLandlordByNameWithInvalidNameThenReturnsResourceNotFoundException(){
         //Arrange
-        String title= "Te odio IntelIJ >:c";
+        String name= "Te odio IntelIJ >:c";
         String template="Resource %s not found for %s with value %s";
-        when(postRepository.findByTitle(title)).thenReturn(Optional.empty());
-        String expectedMessage=String.format(template,"Post","Title",title);
+        when(landlordRepository.findByName(name)).thenReturn(Optional.empty());
+        String expectedMessage=String.format(template,"Landlord","Name",name);
 
         //Act
         Throwable exception= catchThrowable(()->{
-            Post foundPost=postService.getPostByTitle(title);
+            Landlord foundLandlord=landlordService.getLandlordByName(name);
         });
 
         //Assert

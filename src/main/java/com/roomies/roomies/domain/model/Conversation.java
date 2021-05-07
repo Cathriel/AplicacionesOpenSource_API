@@ -20,13 +20,7 @@ public class Conversation extends AuditModel{
     @JsonIgnore
     private User sender;
 
-    //private Long receiverId;
-/*
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="user_id",nullable = false)
-    @JsonIgnore
-    private User receiver;
-*/
+
     public Conversation() {
     }
 

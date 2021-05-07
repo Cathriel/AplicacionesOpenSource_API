@@ -58,4 +58,10 @@ public class LandlordServiceImpl implements LandlordService {
         landlordRepository.delete(landlord);
         return ResponseEntity.ok().build();
     }
+
+    @Override
+    public Landlord getLandlordByName(String name) {
+        return landlordRepository.findByName(name)
+                .orElseThrow(()->new ResourceNotFoundException("Landlord","Name",name));
+    }
 }

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -85,9 +86,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post getPostByTitle(String title) {
 
-        Post post = postRepository.findByTitle(title);
-        if(post==null)
-            throw new ResourceNotFoundException("Post","Title",title);
-        return post;
+        return postRepository.findByTitle(title)
+                .orElseThrow(()->new ResourceNotFoundException("Post","Title",title));
     }
 }

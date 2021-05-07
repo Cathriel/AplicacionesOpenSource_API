@@ -2,6 +2,7 @@ package com.roomies.roomies.service;
 
 import com.roomies.roomies.domain.model.Leaseholder;
 import com.roomies.roomies.domain.model.Post;
+import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.repository.LeaseholderRepository;
 import com.roomies.roomies.domain.repository.PostRepository;
 import com.roomies.roomies.domain.service.LeaseholderService;
@@ -94,5 +95,11 @@ public class LeaseholderServiceImpl implements LeaseholderService {
                     return new PageImpl<>(posts,pageable,postsCount);
                 }).orElseThrow(()->new ResourceNotFoundException(
                         "Leaseholder","Id",leaseholderId));
+    }
+
+    @Override
+    public Leaseholder getLeaseholderByName(String name) {
+        return leaseholderRepository.findByName(name)
+                .orElseThrow(()->new ResourceNotFoundException("Leaseholder","Name",name));
     }
 }

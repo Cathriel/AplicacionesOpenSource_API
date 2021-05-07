@@ -98,10 +98,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByName(String name) {
-
-
         return userRepository.findByName(name)
-                .orElseThrow(()->new ResourceNotFoundException("User","name",name));
-
+                .orElseThrow(()->new ResourceNotFoundException("User","Name",name));
     }
+
+
 }

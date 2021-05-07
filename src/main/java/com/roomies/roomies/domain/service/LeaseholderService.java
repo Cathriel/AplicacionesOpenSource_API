@@ -15,4 +15,6 @@ public interface LeaseholderService {
     Leaseholder assignLeaseholderPost(Long leaseholderId,Long postId);
     Leaseholder unAssignLeaseholderPost(Long leaseholderId,Long postId);
     Page<Post> getAllPostsByLeaseholderId(Long leaseholderId, Pageable pageable);
+
+    Leaseholder getLeaseholderByName(String name);
 }
