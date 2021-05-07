@@ -15,4 +15,5 @@ public interface UserService {
     User assignPaymentMethodUser(Long paymentMethodId,Long userId);
     User unAssignPaymentMethodUser(Long paymentMethodId,Long userId);
     Page<User> getAllUserByPaymentMethodId(Long userId, Pageable pageable);
+    User getUserByName(String name);
 }

@@ -13,7 +13,7 @@ public class OpenApiConfiguration {
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()
-                .title("Roomies Applicaction API")
+                        .title("Roomies Application API")
                         .description("Roomies API implemented with Spring Boot RESTful service and documented using springdoc-openapi and OpenAPI 3.0"));
 
     }

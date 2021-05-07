@@ -13,4 +13,6 @@ public interface PostService {
     Post updatePost(Long postId, Post postRequest);
     ResponseEntity<?> deletePost(Long postId);
     Page<Leaseholder> getAllLeaseholdersByPostId(Long postId, Pageable pageable);
+
+    Post getPostByTitle(String title);
 }

@@ -95,4 +95,13 @@ public class UserServiceImpl implements UserService {
                     return new PageImpl<>(users,pageable,usersCount);
                 }).orElseThrow(()->new ResourceNotFoundException("PaymentMethod","Id",paymentMethodId));
     }
+
+    @Override
+    public User getUserByName(String name) {
+
+
+        return userRepository.findByName(name)
+                .orElseThrow(()->new ResourceNotFoundException("User","name",name));
+
+    }
 }

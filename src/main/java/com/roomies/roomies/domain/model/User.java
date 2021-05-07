@@ -5,6 +5,7 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,6 @@ public class User extends AuditModel {
     @NaturalId
     protected String name;
 
-    @NotNull
     @Size(max = 100)
     @NaturalId
     protected String lastName;
@@ -33,7 +33,7 @@ public class User extends AuditModel {
     @NotNull
     protected String idCard;
 
-    @Lob
+    @NotNull
     protected String Description;
 
     @NotNull

@@ -80,4 +80,14 @@ public class PostServiceImpl implements PostService {
                 }).orElseThrow(()->new ResourceNotFoundException(
                         "Post","Id",postId));
     }
+
+
+    @Override
+    public Post getPostByTitle(String title) {
+
+        Post post = postRepository.findByTitle(title);
+        if(post==null)
+            throw new ResourceNotFoundException("Post","Title",title);
+        return post;
+    }
 }
