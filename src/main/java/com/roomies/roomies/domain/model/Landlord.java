@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name ="landlords")
-public class Landlord extends User{
+public class Landlord extends Profile {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_Id",nullable = false)

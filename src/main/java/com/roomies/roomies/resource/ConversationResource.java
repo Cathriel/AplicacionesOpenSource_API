@@ -1,12 +1,11 @@
 package com.roomies.roomies.resource;
 
 import com.roomies.roomies.domain.model.AuditModel;
-import com.roomies.roomies.domain.model.User;
 
 public class ConversationResource extends AuditModel {
     private Long id;
-    private UserResource sender;
-    private UserResource receiver;
+    private ProfileResource sender;
+    private ProfileResource receiver;
 
     public Long getId() {
         return id;
@@ -17,20 +16,20 @@ public class ConversationResource extends AuditModel {
         return this;
     }
 
-    public UserResource getSender() {
+    public ProfileResource getSender() {
         return sender;
     }
 
-    public ConversationResource setSender(UserResource sender) {
+    public ConversationResource setSender(ProfileResource sender) {
         this.sender = sender;
         return this;
     }
 
-    public UserResource getReceiver() {
+    public ProfileResource getReceiver() {
         return receiver;
     }
 
-    public ConversationResource setReceiver(UserResource receiver) {
+    public ConversationResource setReceiver(ProfileResource receiver) {
         this.receiver = receiver;
         return this;
     }

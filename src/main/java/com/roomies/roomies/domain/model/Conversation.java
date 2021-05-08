@@ -3,7 +3,6 @@ package com.roomies.roomies.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name ="conversations")
@@ -16,9 +15,9 @@ public class Conversation extends AuditModel{
     //private Long senderId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="user_id",nullable = false)
+    @JoinColumn(name="profile_id",nullable = false)
     @JsonIgnore
-    private User sender;
+    private Profile sender;
 
 
     public Conversation() {
@@ -33,11 +32,11 @@ public class Conversation extends AuditModel{
         return this;
     }
 
-    public User getSender() {
+    public Profile getSender() {
         return sender;
     }
 
-    public Conversation setSender(User sender) {
+    public Conversation setSender(Profile sender) {
         this.sender = sender;
         return this;
     }

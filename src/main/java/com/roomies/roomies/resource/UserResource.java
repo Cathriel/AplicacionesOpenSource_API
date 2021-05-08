@@ -1,24 +1,34 @@
 package com.roomies.roomies.resource;
 
-import com.roomies.roomies.domain.model.AuditModel;
+public class UserResource {
+    private Long id;
+    private String email;
+    private String password;
 
-import java.util.Date;
-import java.util.List;
+    public Long getId() {
+        return id;
+    }
 
-public class UserResource extends AuditModel {
-    protected Long id;
-    protected String name;
-    protected String lastName;
-    protected Long cellphone;
-    protected String idCard;
-    protected String Description;
-    protected Date birthday;
-    protected String department;
-    protected String province;
-    protected String district;
-    protected String address;
-    protected String email;
-    protected String password;
-    protected List<PaymentMethodResource> userPaymentMethods;
-    protected PlanResource plan;
+    public UserResource setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserResource setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public UserResource setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 }

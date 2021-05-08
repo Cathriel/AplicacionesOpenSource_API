@@ -26,9 +26,9 @@ public class Review extends AuditModel {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name="user_id",nullable = false)
+    @JoinColumn(name="profile_id",nullable = false)
     @JsonIgnore
-    private User user;
+    private Profile profile;
 
     public Review() {
     }
@@ -69,12 +69,12 @@ public class Review extends AuditModel {
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public Review setUser(User user) {
-        this.user = user;
+    public Review setProfile(Profile profile) {
+        this.profile = profile;
         return this;
     }
 }

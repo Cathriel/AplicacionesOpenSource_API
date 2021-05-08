@@ -2,7 +2,6 @@ package com.roomies.roomies.service;
 
 import com.roomies.roomies.domain.model.Leaseholder;
 import com.roomies.roomies.domain.model.Post;
-import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.repository.LeaseholderRepository;
 import com.roomies.roomies.domain.repository.PostRepository;
 import com.roomies.roomies.domain.service.LeaseholderService;
@@ -49,11 +48,9 @@ public class LeaseholderServiceImpl implements LeaseholderService {
                 .setBirthday(leaseholderRequest.getBirthday())
                 .setCellphone(leaseholderRequest.getCellphone())
                 .setDepartment(leaseholderRequest.getDepartment())
-                .setEmail(leaseholderRequest.getEmail())
                 .setDescription(leaseholderRequest.getDescription())
-                .setIdCard(leaseholderRequest.getIdCard())
+                //.setIdCard(leaseholderRequest.getIdCard())
                 .setName(leaseholderRequest.getName())
-                .setPassword(leaseholderRequest.getPassword())
                 .setProvince(leaseholderRequest.getProvince())
                 .setLastName(leaseholderRequest.getLastName())
                 .setDistrict(leaseholderRequest.getDistrict());

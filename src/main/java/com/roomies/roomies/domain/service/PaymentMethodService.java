@@ -11,5 +11,5 @@ public interface PaymentMethodService {
     PaymentMethod createPaymentMethod(PaymentMethod paymentMethod);
     PaymentMethod updatePaymentMethod(Long paymentMethodId,PaymentMethod paymentMethodRequest);
     ResponseEntity<?> deletePaymentMethod(Long paymentMethodId);
-    Page<PaymentMethod> getAllPaymentMethodsByUserId(Long paymentMethodId,Pageable pageable);
+    Page<PaymentMethod> getAllPaymentMethodsByProfileId(Long paymentMethodId,Pageable pageable);
 }

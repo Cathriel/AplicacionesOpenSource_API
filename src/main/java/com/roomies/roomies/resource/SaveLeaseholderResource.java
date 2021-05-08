@@ -1,4 +1,4 @@
 package com.roomies.roomies.resource;
 
-public class SaveLeaseholderResource extends SaveUserResource{
+public class SaveLeaseholderResource extends SaveProfileResource {
 }

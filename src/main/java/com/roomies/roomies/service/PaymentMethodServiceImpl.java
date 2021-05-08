@@ -1,9 +1,8 @@
 package com.roomies.roomies.service;
 
 import com.roomies.roomies.domain.model.PaymentMethod;
-import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.repository.PaymentMethodRepository;
-import com.roomies.roomies.domain.repository.UserRepository;
+import com.roomies.roomies.domain.repository.ProfileRepository;
 import com.roomies.roomies.domain.service.PaymentMethodService;
 import com.roomies.roomies.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     private PaymentMethodRepository paymentMethodRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ProfileRepository profileRepository;
 
     @Override
     public Page<PaymentMethod> getAllPaymentMethods(Pageable pageable) {
@@ -57,11 +56,11 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         return ResponseEntity.ok().build();
     }
     @Override
-    public Page<PaymentMethod> getAllPaymentMethodsByUserId(Long userId, Pageable pageable) {
-        return userRepository.findById(userId).map(
-                user -> {List<PaymentMethod> paymentMethods = user.getUserPaymentMethods();
+    public Page<PaymentMethod> getAllPaymentMethodsByProfileId(Long profileId, Pageable pageable) {
+        return profileRepository.findById(profileId).map(
+                user -> {List<PaymentMethod> paymentMethods = user.getProfilePaymentMethods();
                 int paymentMethodsCount = paymentMethods.size();
                 return new PageImpl<>(paymentMethods,pageable,paymentMethodsCount);}
-                ).orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
+                ).orElseThrow(()->new ResourceNotFoundException("Profile","Id",profileId));
     }
 }

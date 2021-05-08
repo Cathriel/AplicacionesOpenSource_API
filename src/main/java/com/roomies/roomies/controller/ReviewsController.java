@@ -39,12 +39,12 @@ public class ReviewsController {
         return convertToResource(reviewService.getReviewById(reviewId));
     }
 
-    @PostMapping("/users/{userId}/posts/{postId}/reviews")
+    @PostMapping("/profile/{profileId}/posts/{postId}/reviews")
     public ReviewResource createReview(
-            @PathVariable(name = "userId") Long userId,
+            @PathVariable(name = "profileId") Long profileId,
             @PathVariable(name = "postId") Long postId,
             @Valid @RequestBody SaveReviewResource resource){
-        return convertToResource(reviewService.createReview(postId,userId,convertToEntity(resource)));
+        return convertToResource(reviewService.createReview(postId,profileId,convertToEntity(resource)));
     }
 
     @PutMapping("/reviews/{reviewId}")

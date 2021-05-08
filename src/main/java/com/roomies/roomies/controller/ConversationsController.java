@@ -33,9 +33,9 @@ public class ConversationsController {
     @ApiResponses(value={
             @ApiResponse(responseCode = "200",description = "All Conversations returned",content = @Content(mediaType ="application/json" ))
     })
-    @GetMapping("/users/{userId}/conversations")
-    public Page<ConversationResource> getAllConversationsBySenderId(@PathVariable Long userId, Pageable pageable){
-        Page<Conversation> conversationPage = conversationService.getAllConversationsByUserId(userId,pageable);
+    @GetMapping("/profiles/{profileId}/conversations")
+    public Page<ConversationResource> getAllConversationsBySenderId(@PathVariable Long profileId, Pageable pageable){
+        Page<Conversation> conversationPage = conversationService.getAllConversationsByProfileId(profileId,pageable);
         List<ConversationResource> resources = conversationPage.getContent().stream().map(
                 this::convertToResource).collect(Collectors.toList());
         return new PageImpl<>(resources,pageable,resources.size());

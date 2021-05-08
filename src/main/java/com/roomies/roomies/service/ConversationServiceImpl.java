@@ -17,8 +17,8 @@ public class ConversationServiceImpl implements ConversationService {
     private ConversationRepository conversationRepository;
 
     @Override
-    public Page<Conversation> getAllConversationsByUserId(Long userSenderId,Pageable pageable) {
-        return conversationRepository.findBySenderId(userSenderId,pageable);
+    public Page<Conversation> getAllConversationsByProfileId(Long profileSenderId,Pageable pageable) {
+        return conversationRepository.findBySenderId(profileSenderId,pageable);
     }
 
     @Override

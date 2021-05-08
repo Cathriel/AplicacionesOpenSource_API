@@ -19,9 +19,9 @@ public class Message extends AuditModel{
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="user_id",nullable = false)
+    @JoinColumn(name="profile_id",nullable = false)
     @JsonIgnore
-    private User sender;
+    private Profile sender;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "conversation_landlord_id",nullable = false)
@@ -54,11 +54,11 @@ public class Message extends AuditModel{
         return this;
     }
 
-    public User getSender() {
+    public Profile getSender() {
         return sender;
     }
 
-    public Message setSender(User sender) {
+    public Message setSender(Profile sender) {
         this.sender = sender;
         return this;
     }

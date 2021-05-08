@@ -1,12 +1,9 @@
 package com.roomies.roomies;
 
-import com.roomies.roomies.domain.model.Landlord;
 import com.roomies.roomies.domain.model.Post;
-import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.repository.LandlordRepository;
 import com.roomies.roomies.domain.repository.LeaseholderRepository;
 import com.roomies.roomies.domain.repository.PostRepository;
-import com.roomies.roomies.domain.repository.ReviewRepository;
 import com.roomies.roomies.domain.service.LandlordService;
 import com.roomies.roomies.domain.service.LeaseholderService;
 import com.roomies.roomies.domain.service.PostService;
@@ -14,7 +11,6 @@ import com.roomies.roomies.exception.ResourceNotFoundException;
 import com.roomies.roomies.service.LandlordServiceImpl;
 import com.roomies.roomies.service.LeaseholderServiceImpl;
 import com.roomies.roomies.service.PostServiceImpl;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,7 +59,7 @@ public class PostServiceImplTest {
     public void whenGetPostByTitleWithValidTitleThenReturnsTitle(){
 
         //Arrange
-        String title= "Te odio IntelIJ >:c";
+        String title= "Casa en la Molina";
         Post post=new Post().setId(1L).setTitle(title);
 
         //postRepository.save(title);

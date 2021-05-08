@@ -1,7 +1,11 @@
 package com.roomies.roomies.controller;
 
+import com.roomies.roomies.domain.model.Plan;
 import com.roomies.roomies.domain.model.User;
+import com.roomies.roomies.domain.service.PlanService;
 import com.roomies.roomies.domain.service.UserService;
+import com.roomies.roomies.resource.PlanResource;
+import com.roomies.roomies.resource.SavePlanResource;
 import com.roomies.roomies.resource.SaveUserResource;
 import com.roomies.roomies.resource.UserResource;
 import org.modelmapper.ModelMapper;
@@ -9,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,25 +31,10 @@ public class UsersController {
 
     @GetMapping("/users")
     public Page<UserResource> getAllUsers(Pageable pageable){
-        List<UserResource> users = userService.getAllUsers(pageable)
-                .getContent().stream().map(this::convertToResource)
-                .collect(Collectors.toList());
-        int usersCount = users.size();
-        return new PageImpl<>(users,pageable,usersCount);
-    }
-
-    @GetMapping("/paymentMethods/{paymentMethodId}/users")
-    public Page<UserResource> getAllUsersByPaymentMethodId(@PathVariable Long paymentMethodId, Pageable pageable){
-        List<UserResource> users = userService.getAllUserByPaymentMethodId(paymentMethodId,pageable)
-                .getContent().stream().map(this::convertToResource)
-                .collect(Collectors.toList());
-        int usersCount = users.size();
-        return new PageImpl<>(users,pageable,usersCount);
-    }
-
-    @GetMapping("/users/{userId}")
-    public UserResource getUserById(@PathVariable Long userId){
-        return convertToResource(userService.getUserById(userId));
+        Page<User> userPage = userService.getAllUsers(pageable);
+        List<UserResource> resources = userPage.getContent().stream().map(
+                this::convertToResource).collect(Collectors.toList());
+        return new PageImpl<>(resources,pageable,resources.size());
     }
 
     @PostMapping("/users")
@@ -54,21 +42,13 @@ public class UsersController {
         return convertToResource(userService.createUser(convertToEntity(resource)));
     }
 
-    @PutMapping("/users/{userId}")
-    public UserResource updateUser(@PathVariable Long userId, @Valid @RequestBody SaveUserResource resource){
-        return convertToResource(userService.updateUser(userId,convertToEntity(resource)));
-    }
-
-    @DeleteMapping("/users/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId){
-        return userService.deleteUser(userId);
-    }
-
     private User convertToEntity(SaveUserResource resource) {
-        return mapper.map(resource, User.class);
+        return mapper.map(resource,User.class);
     }
 
-    private UserResource convertToResource(User entity) {
+    private UserResource convertToResource(User entity){
         return mapper.map(entity, UserResource.class);
     }
+
+
 }

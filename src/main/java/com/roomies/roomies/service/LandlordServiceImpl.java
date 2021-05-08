@@ -40,11 +40,9 @@ public class LandlordServiceImpl implements LandlordService {
                 .setBirthday(landlordRequest.getBirthday())
                 .setCellphone(landlordRequest.getCellphone())
                 .setDepartment(landlordRequest.getDepartment())
-                .setEmail(landlordRequest.getEmail())
                 .setDescription(landlordRequest.getDescription())
-                .setIdCard(landlordRequest.getIdCard())
+                //.setIdCard(landlordRequest.getIdCard())
                 .setName(landlordRequest.getName())
-                .setPassword(landlordRequest.getPassword())
                 .setProvince(landlordRequest.getProvince())
                 .setLastName(landlordRequest.getLastName())
                 .setDistrict(landlordRequest.getDistrict());

@@ -2,50 +2,35 @@ package com.roomies.roomies.resource;
 
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 public class SaveUserResource {
     @NotNull
     @Size(max = 100)
     @NaturalId
-    protected String name;
+    private String email;
 
     @NotNull
     @Size(max = 100)
     @NaturalId
-    protected String lastName;
+    private String password;
 
-    @NotNull
-    protected Long cellphone;
+    public String getEmail() {
+        return email;
+    }
 
-    @NotNull
-    protected String idCard;
+    public SaveUserResource setEmail(String email) {
+        this.email = email;
+        return this;
+    }
 
-    @Lob
-    protected String Description;
+    public String getPassword() {
+        return password;
+    }
 
-    @NotNull
-    protected Date birthday;
-
-    @NotNull
-    protected String department;
-
-    @NotNull
-    protected String province;
-
-    @NotNull
-    protected String district;
-
-    @NotNull
-    protected String address;
-
-    @NotNull
-    protected String email;
-
-    @NotNull
-    protected String password;
+    public SaveUserResource setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 }

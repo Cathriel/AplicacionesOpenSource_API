@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name ="leaseholders")
-public class Leaseholder extends User{
+public class Leaseholder extends Profile {
 
     @ManyToMany(fetch = FetchType.LAZY,
     cascade = {CascadeType.PERSIST,CascadeType.MERGE}

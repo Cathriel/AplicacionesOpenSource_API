@@ -1,11 +1,9 @@
 package com.roomies.roomies.service;
 
-import com.roomies.roomies.domain.model.Post;
 import com.roomies.roomies.domain.model.Review;
-import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.repository.PostRepository;
 import com.roomies.roomies.domain.repository.ReviewRepository;
-import com.roomies.roomies.domain.repository.UserRepository;
+import com.roomies.roomies.domain.repository.ProfileRepository;
 import com.roomies.roomies.domain.service.ReviewService;
 import com.roomies.roomies.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -26,7 +22,7 @@ public class ReviewServiceImpl implements ReviewService {
     private PostRepository postRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ProfileRepository profileRepository;
 
     @Override
     public Page<Review> getAllReviewsByPostId(Long postId,Pageable pageable) {
@@ -40,13 +36,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review createReview(Long postId,Long userId,Review review) {
+    public Review createReview(Long postId,Long profileId,Review review) {
         return postRepository.findById(postId).map(
                 post->{review.setPost(post);
-                userRepository.findById(userId).map(
-                        user -> {review.setUser(user);
+                profileRepository.findById(profileId).map(
+                        user -> {review.setProfile(user);
                             return reviewRepository.save(review);})
-                        .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
+                        .orElseThrow(()->new ResourceNotFoundException("Profile","Id",profileId));
                     return reviewRepository.save(review);}
         ).orElseThrow(()->new ResourceNotFoundException("Post","Id",postId));
     }

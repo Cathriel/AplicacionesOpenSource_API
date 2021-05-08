@@ -1,5 +1,7 @@
 package com.roomies.roomies;
 
+import com.roomies.roomies.domain.service.UserService;
+import com.roomies.roomies.service.UserServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,5 +19,9 @@ public class RoomiesApplication {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+    @Bean
+    public UserService userService() {
+        return new UserServiceImpl();
     }
 }

@@ -15,10 +15,10 @@ public class PaymentMethod extends AuditModel {
 
     @ManyToMany(fetch = FetchType.LAZY,
     cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "user_payment_methods",
+    @JoinTable(name = "profile_payment_methods",
     joinColumns = {@JoinColumn(name = "payment_method_id")},
     inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private List<User> users;
+    private List<Profile> profiles;
 
     @NotNull
     private Long cardNumber;
@@ -47,12 +47,12 @@ public class PaymentMethod extends AuditModel {
         return this;
     }
 
-    public List<User> getUserPaymentMethods() {
-        return users;
+    public List<Profile> getProfilesPaymentMethods() {
+        return profiles;
     }
 
-    public PaymentMethod setUserPaymentMethods(List<User> userPaymentMethods) {
-        this.users = userPaymentMethods;
+    public PaymentMethod setProfilePaymentMethods(List<Profile> profilePaymentMethods) {
+        this.profiles = profilePaymentMethods;
         return this;
     }
 

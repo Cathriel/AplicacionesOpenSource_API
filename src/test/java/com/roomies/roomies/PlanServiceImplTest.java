@@ -6,9 +6,11 @@ import com.roomies.roomies.domain.repository.PaymentMethodRepository;
 import com.roomies.roomies.domain.repository.PlanRepository;
 import com.roomies.roomies.domain.service.PaymentMethodService;
 import com.roomies.roomies.domain.service.PlanService;
+import com.roomies.roomies.domain.service.UserService;
 import com.roomies.roomies.exception.ResourceNotFoundException;
 import com.roomies.roomies.service.PaymentMethodServiceImpl;
 import com.roomies.roomies.service.PlanServiceImpl;
+import com.roomies.roomies.service.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +42,12 @@ public class PlanServiceImplTest {
         public PlanService planService(){
             return new PlanServiceImpl();
         }
+        @Bean
+        public UserService userService(){
+            return new UserServiceImpl();
+        }
+
+
     }
 
 
