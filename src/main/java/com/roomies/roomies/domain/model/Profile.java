@@ -1,11 +1,9 @@
 package com.roomies.roomies.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +60,7 @@ public class Profile extends AuditModel {
     @OneToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "user_id",nullable = true)
     @JsonIgnore
-    private User user;
+    private Userr userr;
 
     public Profile() {
     }
@@ -194,12 +192,12 @@ public class Profile extends AuditModel {
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public Userr getUser() {
+        return userr;
     }
 
-    public Profile setUser(User user) {
-        this.user = user;
+    public Profile setUser(Userr userr) {
+        this.userr = userr;
         return this;
     }
 }

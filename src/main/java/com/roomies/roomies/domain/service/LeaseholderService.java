@@ -9,12 +9,11 @@ import org.springframework.http.ResponseEntity;
 public interface LeaseholderService {
     Page<Leaseholder> getAllLeaseholder(Pageable pageable);
     Leaseholder getLeaseholderById(Long leaseholderId);
-    Leaseholder createLeaseholder(Leaseholder leaseholder);
+    Leaseholder createLeaseholder(Long userId,Long planId,Leaseholder leaseholder);
     Leaseholder updateLeaseholder(Long leaseholderId,Leaseholder leaseholderRequest);
     ResponseEntity<?> deleteLeaseholder(Long leaseholderId);
     Leaseholder assignLeaseholderPost(Long leaseholderId,Long postId);
     Leaseholder unAssignLeaseholderPost(Long leaseholderId,Long postId);
     Page<Post> getAllPostsByLeaseholderId(Long leaseholderId, Pageable pageable);
-
     Leaseholder getLeaseholderByName(String name);
 }

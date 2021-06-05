@@ -3,7 +3,7 @@ package com.roomies.roomies.service;
 import com.roomies.roomies.domain.model.PaymentMethod;
 import com.roomies.roomies.domain.model.Plan;
 import com.roomies.roomies.domain.model.Profile;
-import com.roomies.roomies.domain.model.User;
+import com.roomies.roomies.domain.model.Userr;
 import com.roomies.roomies.domain.repository.PaymentMethodRepository;
 import com.roomies.roomies.domain.repository.PlanRepository;
 import com.roomies.roomies.domain.repository.ProfileRepository;
@@ -13,10 +13,12 @@ import com.roomies.roomies.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,9 +51,21 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile createProfile(Long userId,Long planId,Profile profile) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(()->new ResourceNotFoundException("Plan","Id",planId));
-        User user = userRepository.findById(userId)
+        Userr userr = userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
-        return profileRepository.save(profile.setUser(user)
+
+        Pageable pageable = PageRequest.of(0,10000);
+        Page<Profile> profilePage= profileRepository.findAll(pageable);
+        profilePage.forEach(profile1 -> {
+            if(profile1.getUser().equals(userr))
+                throw new ResourceNotFoundException("The user is associated to another profile");
+        });
+
+        Date date =  new Date();
+        if(date.getYear()-profile.getBirthday().getYear()>18)
+            throw new ResourceNotFoundException("The user have to be older than 18");
+
+        return profileRepository.save(profile.setUser(userr)
         .setPlan(plan));
     }
 

@@ -4,6 +4,7 @@ import com.roomies.roomies.domain.model.Post;
 import com.roomies.roomies.domain.repository.LandlordRepository;
 import com.roomies.roomies.domain.repository.LeaseholderRepository;
 import com.roomies.roomies.domain.repository.PostRepository;
+import com.roomies.roomies.domain.repository.ReviewRepository;
 import com.roomies.roomies.domain.service.LandlordService;
 import com.roomies.roomies.domain.service.LeaseholderService;
 import com.roomies.roomies.domain.service.PostService;
@@ -28,8 +29,12 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 public class PostServiceImplTest {
+
     @MockBean
     private PostRepository postRepository;
+
+    @MockBean
+    private ReviewRepository reviewRepository;
 
     @MockBean
     private LandlordRepository landlordRepository;
@@ -46,12 +51,6 @@ public class PostServiceImplTest {
         public PostService postService(){
             return new PostServiceImpl();
         }
-
-        @Bean
-        public LandlordService landlordService(){return new LandlordServiceImpl();}
-
-        @Bean
-        public LeaseholderService leaseholderService(){return new LeaseholderServiceImpl();}
     }
 
     @Test
@@ -77,7 +76,7 @@ public class PostServiceImplTest {
     @DisplayName("When getPostByTitle With Invalid Title Then Returns Resource Not Found Exception")
     public void whenGetPostByTitleWithInvalidTitleThenReturnsResourceNotFoundException(){
         //Arrange
-        String title= "Te odio IntelIJ >:c";
+        String title= "String";
         String template="Resource %s not found for %s with value %s";
         when(postRepository.findByTitle(title)).thenReturn(Optional.empty());
         String expectedMessage=String.format(template,"Post","Title",title);

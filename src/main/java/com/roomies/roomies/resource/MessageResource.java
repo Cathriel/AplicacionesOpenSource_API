@@ -5,7 +5,6 @@ import com.roomies.roomies.domain.model.AuditModel;
 public class MessageResource extends AuditModel {
     private Long id;
     private String content;
-    private ProfileResource sender;
     private ConversationResource landlordConversation;
     private ConversationResource leaseholderConversation;
 
@@ -24,15 +23,6 @@ public class MessageResource extends AuditModel {
 
     public MessageResource setContent(String content) {
         this.content = content;
-        return this;
-    }
-
-    public ProfileResource getSender() {
-        return sender;
-    }
-
-    public MessageResource setSender(ProfileResource sender) {
-        this.sender = sender;
         return this;
     }
 

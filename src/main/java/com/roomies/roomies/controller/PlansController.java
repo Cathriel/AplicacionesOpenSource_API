@@ -6,6 +6,7 @@ import com.roomies.roomies.domain.model.Post;
 import com.roomies.roomies.domain.model.Profile;
 import com.roomies.roomies.domain.service.PlanService;
 import com.roomies.roomies.resource.*;
+import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ public class PlansController {
     @Autowired
     private PlanService planService;
 
+    @Operation(tags = {"plans"})
     @GetMapping("/plans")
     public Page<PlanResource> getAllPlans(Pageable pageable){
         Page<Plan> planPage = planService.getAllPlans(pageable);
@@ -36,6 +38,7 @@ public class PlansController {
         return new PageImpl<>(resources,pageable,resources.size());
     }
 
+    @Operation(tags = {"plans"})
     @PostMapping("/plans")
     public PlanResource createPlan(@Valid @RequestBody SavePlanResource resource){
         return convertToResource(planService.createPlan(convertToEntity(resource)));

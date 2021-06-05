@@ -29,14 +29,24 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 public class LeaseholderServiceImplTest {
+
     @MockBean
     private LeaseholderRepository leaseholderRepository;
+
+    @MockBean
+    private PlanRepository planRepository;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @MockBean
     private PostRepository postRepository;
 
     @MockBean
-    private LandlordRepository landlordRepository;
+    private ConversationRepository conversationRepository;
+
+    @MockBean
+    private ProfileRepository profileRepository;
 
     @Autowired
     private LeaseholderService leaseholderService;
@@ -47,18 +57,6 @@ public class LeaseholderServiceImplTest {
         public LeaseholderService leaseholderService(){
             return new LeaseholderServiceImpl();
         }
-
-        @Bean
-        public PostService postService(){
-            return new PostServiceImpl();
-        }
-
-        @Bean
-        public LandlordService landlordService(){
-            return new LandlordServiceImpl();
-        }
-
-        
     }
 
     @Test
@@ -66,7 +64,7 @@ public class LeaseholderServiceImplTest {
     public void whenGetLeaseholderByNameWithValidNameThenReturnsName(){
 
         //Arrange
-        String name= "Te odio IntelIJ >:c";
+        String name= "String";
         Leaseholder leaseholder= (Leaseholder) new Leaseholder().setId(1L).setName(name);
 
         when(leaseholderRepository.findByName(name)).thenReturn(Optional.of(leaseholder));
@@ -82,7 +80,7 @@ public class LeaseholderServiceImplTest {
     @DisplayName("When getLeaseholderByName With Invalid Name Then Returns Resource Not Found Exception")
     public void whenGetLeaseholderByNameWithInvalidNameThenReturnsResourceNotFoundException(){
         //Arrange
-        String name= "Te odio IntelIJ >:c";
+        String name= "String";
         String template="Resource %s not found for %s with value %s";
         when(leaseholderRepository.findByName(name)).thenReturn(Optional.empty());
         String expectedMessage=String.format(template,"Leaseholder","Name",name);

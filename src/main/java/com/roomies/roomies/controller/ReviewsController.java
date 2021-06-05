@@ -5,6 +5,7 @@ import com.roomies.roomies.domain.service.PostService;
 import com.roomies.roomies.domain.service.ReviewService;
 import com.roomies.roomies.resource.ReviewResource;
 import com.roomies.roomies.resource.SaveReviewResource;
+import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ public class ReviewsController {
     @Autowired
     private ReviewService reviewService;
 
+    @Operation(tags = {"reviews"})
     @GetMapping("/post/{postId}/reviews")
     public Page<ReviewResource> getAllReviewsByPostId(@PathVariable Long postId, Pageable pageable){
         Page<Review> reviewPage = reviewService.getAllReviewsByPostId(postId,pageable);
@@ -34,11 +36,13 @@ public class ReviewsController {
         return new PageImpl<>(resources,pageable, resources.size());
     }
 
+    @Operation(tags = {"reviews"})
     @GetMapping("/reviews/{reviewId}")
     public ReviewResource getReviewById(@PathVariable Long reviewId){
         return convertToResource(reviewService.getReviewById(reviewId));
     }
 
+    @Operation(tags = {"reviews"})
     @PostMapping("/profile/{profileId}/posts/{postId}/reviews")
     public ReviewResource createReview(
             @PathVariable(name = "profileId") Long profileId,
@@ -47,11 +51,13 @@ public class ReviewsController {
         return convertToResource(reviewService.createReview(postId,profileId,convertToEntity(resource)));
     }
 
+    @Operation(tags = {"reviews"})
     @PutMapping("/reviews/{reviewId}")
     public ReviewResource updateReview(@PathVariable Long reviewId, @Valid @RequestBody SaveReviewResource resource){
         return convertToResource(reviewService.updateReview(reviewId,convertToEntity(resource)));
     }
 
+    @Operation(tags = {"reviews"})
     @DeleteMapping("/reviews/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable Long reviewId){
         return reviewService.deleteReview(reviewId);

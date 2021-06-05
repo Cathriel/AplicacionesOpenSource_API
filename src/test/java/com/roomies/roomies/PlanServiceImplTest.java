@@ -42,11 +42,6 @@ public class PlanServiceImplTest {
         public PlanService planService(){
             return new PlanServiceImpl();
         }
-        @Bean
-        public UserService userService(){
-            return new UserServiceImpl();
-        }
-
 
     }
 
@@ -56,7 +51,7 @@ public class PlanServiceImplTest {
     public void whenGetPlanByNameWithValidNameThenReturnsPlan(){
 
         //Arrange
-        String name= "Te odio IntelIJ >:c";
+        String name= "Gratis";
         Plan plan=new Plan().setId(1L).setName(name);
 
         planRepository.save(plan);

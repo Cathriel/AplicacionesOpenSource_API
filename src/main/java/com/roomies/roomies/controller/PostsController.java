@@ -5,6 +5,7 @@ import com.roomies.roomies.domain.repository.PostRepository;
 import com.roomies.roomies.domain.service.PostService;
 import com.roomies.roomies.resource.PostResource;
 import com.roomies.roomies.resource.SavePostResource;
+import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ public class PostsController {
     @Autowired
     private PostService postService;
 
+    @Operation(tags = {"posts"})
     @GetMapping("/posts")
     public Page<PostResource> getAllComments(Pageable pageable){
         Page<Post> postPage = postService.getAllPosts(pageable);
@@ -35,16 +37,19 @@ public class PostsController {
         return new PageImpl<>(resources,pageable,resources.size());
     }
 
+    @Operation(tags = {"posts"})
     @PostMapping("/landlord/{landlordId}/posts")
-    public PostResource createPost(@PathVariable Long landlordId, @Valid @PathVariable SavePostResource resource){
+    public PostResource createPost(@PathVariable Long landlordId, @Valid @RequestBody SavePostResource resource){
         return convertToResource(postService.createPost(landlordId,convertToEntity(resource)));
     }
 
+    @Operation(tags = {"posts"})
     @PutMapping("/posts/{postId}")
     public PostResource updatePost(@PathVariable Long postId,@Valid @RequestBody SavePostResource resource){
         return convertToResource(postService.updatePost(postId,convertToEntity(resource)));
     }
 
+    @Operation(tags = {"posts"})
     @DeleteMapping("/posts/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
         return postService.deletePost(postId);

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface ConversationService {
     Page<Conversation> getAllConversationsByProfileId(Long profileId,Pageable pageable);
     Conversation getConversationById(Long conversationId);
-    Conversation createConversation(Conversation conversation);
+    Conversation createConversation(Long profileSenderId,Long profileReceiverId);
     ResponseEntity<?> deleteConversation(Long conversationId);
 
 }

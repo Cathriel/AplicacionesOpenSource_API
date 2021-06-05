@@ -41,6 +41,16 @@ public class ConversationsController {
         return new PageImpl<>(resources,pageable,resources.size());
     }
 
+    @Operation(tags = {"conversations"})
+
+    @PostMapping("profiles/{profileSenderId}/profiles/{profileReceiverId}/conversations")
+    public ConversationResource createConversation(
+            @PathVariable (name = "profileSenderId") Long profileSenderId,
+            @PathVariable (name ="profileReceiverId") Long profileReceiverId) {
+        return convertToResource(conversationService.createConversation(profileSenderId,profileReceiverId));
+    }
+
+    @Operation(tags = {"conversations"})
     @DeleteMapping("/conversations/{conversationId}")
     public ResponseEntity<?> deleteConversation(@PathVariable Long conversationId){
         return conversationService.deleteConversation(conversationId);

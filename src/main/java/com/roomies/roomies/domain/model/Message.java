@@ -18,20 +18,15 @@ public class Message extends AuditModel{
     @Lob
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="profile_id",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "conversation_sender_id",nullable = false)
     @JsonIgnore
-    private Profile sender;
+    private Conversation conversationSender;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "conversation_landlord_id",nullable = false)
+    @JoinColumn(name = "conversation_receiver_id",nullable = false)
     @JsonIgnore
-    private Conversation landlordConversation;
-
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "conversation_leaseholder_id",nullable = false)
-    @JsonIgnore
-    private Conversation leaseholderConversation;
+    private Conversation conversationReceiver;
 
     public Message() {
     }
@@ -54,30 +49,21 @@ public class Message extends AuditModel{
         return this;
     }
 
-    public Profile getSender() {
-        return sender;
+    public Conversation getConversationSender() {
+        return conversationSender;
     }
 
-    public Message setSender(Profile sender) {
-        this.sender = sender;
+    public Message setConversationSender(Conversation conversationSender) {
+        this.conversationSender = conversationSender;
         return this;
     }
 
-    public Conversation getLandlordConversation() {
-        return landlordConversation;
+    public Conversation getConversationReceiver() {
+        return conversationReceiver;
     }
 
-    public Message setLandlordConversation(Conversation landlordConversation) {
-        this.landlordConversation = landlordConversation;
-        return this;
-    }
-
-    public Conversation getLeaseholderConversation() {
-        return leaseholderConversation;
-    }
-
-    public Message setLeaseholderConversation(Conversation leaseholderConversation) {
-        this.leaseholderConversation = leaseholderConversation;
+    public Message setConversationReceiver(Conversation conversationReceiver) {
+        this.conversationReceiver = conversationReceiver;
         return this;
     }
 }

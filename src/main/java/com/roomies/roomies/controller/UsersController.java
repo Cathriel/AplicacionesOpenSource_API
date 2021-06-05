@@ -1,13 +1,10 @@
 package com.roomies.roomies.controller;
 
-import com.roomies.roomies.domain.model.Plan;
-import com.roomies.roomies.domain.model.User;
-import com.roomies.roomies.domain.service.PlanService;
+import com.roomies.roomies.domain.model.Userr;
 import com.roomies.roomies.domain.service.UserService;
-import com.roomies.roomies.resource.PlanResource;
-import com.roomies.roomies.resource.SavePlanResource;
 import com.roomies.roomies.resource.SaveUserResource;
 import com.roomies.roomies.resource.UserResource;
+import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,24 +26,26 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
+    @Operation(tags = {"users"})
     @GetMapping("/users")
     public Page<UserResource> getAllUsers(Pageable pageable){
-        Page<User> userPage = userService.getAllUsers(pageable);
+        Page<Userr> userPage = userService.getAllUsers(pageable);
         List<UserResource> resources = userPage.getContent().stream().map(
                 this::convertToResource).collect(Collectors.toList());
         return new PageImpl<>(resources,pageable,resources.size());
     }
 
+    @Operation(tags = {"users"})
     @PostMapping("/users")
     public UserResource createUser(@Valid @RequestBody SaveUserResource resource){
         return convertToResource(userService.createUser(convertToEntity(resource)));
     }
 
-    private User convertToEntity(SaveUserResource resource) {
-        return mapper.map(resource,User.class);
+    private Userr convertToEntity(SaveUserResource resource) {
+        return mapper.map(resource, Userr.class);
     }
 
-    private UserResource convertToResource(User entity){
+    private UserResource convertToResource(Userr entity){
         return mapper.map(entity, UserResource.class);
     }
 

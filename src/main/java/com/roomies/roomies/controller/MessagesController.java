@@ -4,6 +4,7 @@ import com.roomies.roomies.domain.model.Message;
 import com.roomies.roomies.domain.service.MessageService;
 import com.roomies.roomies.resource.MessageResource;
 import com.roomies.roomies.resource.SaveMessageResource;
+import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ public class MessagesController {
     @Autowired
     private MessageService messageService;
 
+    @Operation(tags = {"messages"})
     @GetMapping("/messages")
     public Page<MessageResource> getAllMessages(Pageable pageable){
         List<MessageResource> messages = messageService.getAllMessages(pageable)
@@ -34,16 +36,21 @@ public class MessagesController {
         return new PageImpl<>(messages,pageable,messagesCount);
     }
 
-    @PostMapping("/messages")
-    public MessageResource createMessage(@Valid @RequestBody SaveMessageResource resource){
-        return convertToResource(messageService.createMessage(convertToEntity(resource)));
+    @Operation(tags = {"messages"})
+    @PostMapping("/conversations/{conversationSenderId}/messages")
+    public MessageResource createMessage(
+            @PathVariable (name = "conversationSenderId") Long conversationSenderId,
+            @Valid @RequestBody SaveMessageResource resource){
+        return convertToResource(messageService.createMessage(conversationSenderId,convertToEntity(resource)));
     }
 
+    @Operation(tags = {"messages"})
     @PutMapping("/messages/{messageId}")
     public MessageResource updateMessage(@PathVariable Long messageId, @Valid @RequestBody SaveMessageResource resource){
         return convertToResource(messageService.updateMessage(messageId,convertToEntity(resource)));
     }
 
+    @Operation(tags = {"messages"})
     @DeleteMapping("/messages/{messageId}")
     public ResponseEntity<?> deleteMessage(@PathVariable Long messageId){
         return messageService.deleteMessage(messageId);

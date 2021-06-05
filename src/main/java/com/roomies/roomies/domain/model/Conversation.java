@@ -12,13 +12,15 @@ public class Conversation extends AuditModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //private Long senderId;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="profile_id",nullable = false)
+    @JoinColumn(name="profile_sender_id",nullable = false)
     @JsonIgnore
     private Profile sender;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="profile_receiver_id",nullable = false)
+    @JsonIgnore
+    private Profile receiver;
 
     public Conversation() {
     }
@@ -40,13 +42,12 @@ public class Conversation extends AuditModel{
         this.sender = sender;
         return this;
     }
-/*
-    public User getReceiver() {
+    public Profile getReceiver() {
         return receiver;
     }
 
-    public Conversation setReceiver(User receiver) {
+    public Conversation setReceiver(Profile receiver) {
         this.receiver = receiver;
         return this;
-    }*/
+    }
 }

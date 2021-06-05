@@ -1,18 +1,18 @@
 package com.roomies.roomies.service;
 
-import com.roomies.roomies.domain.model.Leaseholder;
-import com.roomies.roomies.domain.model.Post;
-import com.roomies.roomies.domain.repository.LeaseholderRepository;
-import com.roomies.roomies.domain.repository.PostRepository;
+import com.roomies.roomies.domain.model.*;
+import com.roomies.roomies.domain.repository.*;
 import com.roomies.roomies.domain.service.LeaseholderService;
 import com.roomies.roomies.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,7 +22,19 @@ public class LeaseholderServiceImpl implements LeaseholderService {
     private LeaseholderRepository leaseholderRepository;
 
     @Autowired
+    private PlanRepository planRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private ConversationRepository conversationRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Override
     public Page<Leaseholder> getAllLeaseholder(Pageable pageable) {
@@ -36,7 +48,23 @@ public class LeaseholderServiceImpl implements LeaseholderService {
     }
 
     @Override
-    public Leaseholder createLeaseholder(Leaseholder leaseholder) {
+    public Leaseholder createLeaseholder(Long userId,Long planId,Leaseholder leaseholder) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(()->new ResourceNotFoundException("Plan","Id",planId));
+        Userr userr = userRepository.findById(userId)
+                .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
+
+        Pageable pageable = PageRequest.of(0,10000);
+        Page<Profile> profilePage= profileRepository.findAll(pageable);
+        profilePage.forEach(profile -> {
+            if(profile.getUser().equals(userr))
+                throw new ResourceNotFoundException("The user is associated to another profile");
+        });
+
+        Date date =  new Date();
+        if(date.getYear()-leaseholder.getBirthday().getYear()>18)
+            throw new ResourceNotFoundException("The user have to be older than 18");
+        leaseholder.setPlan(plan).setUser(userr);
         return leaseholderRepository.save(leaseholder);
     }
 
@@ -61,6 +89,23 @@ public class LeaseholderServiceImpl implements LeaseholderService {
     public ResponseEntity<?> deleteLeaseholder(Long leaseholderId) {
         Leaseholder leaseholder = leaseholderRepository.findById(leaseholderId)
                 .orElseThrow(()->new ResourceNotFoundException("Leaseholder","Id",leaseholderId));
+
+        Pageable pageable = PageRequest.of(0,10000);
+        Page<Post> postPage = getAllPostsByLeaseholderId(leaseholderId,pageable);
+        List<PaymentMethod> paymentMethodList = leaseholder.getProfilePaymentMethods();
+        Page<Conversation> conversationPage = conversationRepository.findBySenderId(leaseholderId,pageable);
+        if(postPage!=null)
+            postPage.forEach(post -> {
+                post.unAssignWith(leaseholder);
+            });
+        if(paymentMethodList!=null)
+            paymentMethodList.forEach(paymentMethod -> {
+                paymentMethod.getProfilesPaymentMethods().remove(leaseholder);
+            });
+        if(conversationPage!=null)
+            conversationPage.forEach(conversation -> conversationRepository.delete(conversation));
+
+        userRepository.delete(leaseholder.getUser());
         leaseholderRepository.delete(leaseholder);
         return ResponseEntity.ok().build();
     }

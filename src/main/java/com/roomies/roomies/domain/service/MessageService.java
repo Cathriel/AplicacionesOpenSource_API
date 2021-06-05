@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface MessageService {
     Page<Message> getAllMessages(Pageable pageable);
     Message getMessageById(Long messageId);
-    Message createMessage(Message message);
+    Message createMessage(Long conversationSenderId,Message message);
     Message updateMessage(Long messageId,Message messageRequest);
     ResponseEntity<?> deleteMessage(Long messageId);
 }

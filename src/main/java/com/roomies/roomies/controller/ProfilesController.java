@@ -1,4 +1,4 @@
-package com.roomies.roomies.controller;
+/*package com.roomies.roomies.controller;
 
 import com.roomies.roomies.domain.model.Profile;
 import com.roomies.roomies.domain.service.ProfileService;
@@ -75,3 +75,4 @@ public class ProfilesController {
         return mapper.map(entity, ProfileResource.class);
     }
 }
+*/

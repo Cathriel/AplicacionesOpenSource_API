@@ -119,4 +119,13 @@ public class Post extends AuditModel{
     public List<Leaseholder> getLeaseholderFavouritePosts() {
         return leaseholders;
     }
+
+    public boolean isTaggedWith(Leaseholder leaseholder){return this.getLeaseholderFavouritePosts().contains(leaseholder);}
+
+    public Post unAssignWith(Leaseholder leaseholder){
+        if(this.isTaggedWith(leaseholder))
+            this.getLeaseholderFavouritePosts().remove(leaseholder);
+        return this;
+    }
+
 }

@@ -30,15 +30,24 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 public class LandlordServiceImplTest {
+
     @MockBean
     private LandlordRepository landlordRepository;
+
+    @MockBean
+    private PlanRepository planRepository;
 
     @MockBean
     private PostRepository postRepository;
 
     @MockBean
-    private LeaseholderRepository leaseholderRepository;
+    private UserRepository userRepository;
 
+    @MockBean
+    private ConversationRepository conversationRepository;
+
+    @MockBean
+    private ProfileRepository profileRepository;
 
     @Autowired
     private LandlordService landlordService;
@@ -49,17 +58,6 @@ public class LandlordServiceImplTest {
         public LandlordService landlordService(){
             return new LandlordServiceImpl();
         }
-
-        @Bean
-        public PostService postService(){
-            return new PostServiceImpl();
-        }
-
-        @Bean
-        public LeaseholderService leaseholderService(){
-            return new LeaseholderServiceImpl();
-        }
-
     }
 
     @Test
@@ -67,7 +65,7 @@ public class LandlordServiceImplTest {
     public void whenGetLandlordByNameWithValidNameThenReturnsName(){
 
         //Arrange
-        String name= "Te odio IntelIJ >:c";
+        String name= "String";
         Landlord landlord= (Landlord) new Landlord().setId(1L).setName(name);
 
         when(landlordRepository.findByName(name)).thenReturn(Optional.of(landlord));
@@ -83,7 +81,7 @@ public class LandlordServiceImplTest {
     @DisplayName("When getLandlordByName With Invalid Name Then Returns Resource Not Found Exception")
     public void whenGetLandlordByNameWithInvalidNameThenReturnsResourceNotFoundException(){
         //Arrange
-        String name= "Te odio IntelIJ >:c";
+        String name= "String";
         String template="Resource %s not found for %s with value %s";
         when(landlordRepository.findByName(name)).thenReturn(Optional.empty());
         String expectedMessage=String.format(template,"Landlord","Name",name);

@@ -3,16 +3,15 @@ package com.roomies.roomies.service;
 import com.roomies.roomies.domain.model.Landlord;
 import com.roomies.roomies.domain.model.Leaseholder;
 import com.roomies.roomies.domain.model.Post;
+import com.roomies.roomies.domain.model.Review;
 import com.roomies.roomies.domain.repository.LandlordRepository;
 import com.roomies.roomies.domain.repository.LeaseholderRepository;
 import com.roomies.roomies.domain.repository.PostRepository;
+import com.roomies.roomies.domain.repository.ReviewRepository;
 import com.roomies.roomies.domain.service.PostService;
 import com.roomies.roomies.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.AfterDomainEventPublication;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +23,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Autowired
     private LandlordRepository landlordRepository;
@@ -46,7 +48,7 @@ public class PostServiceImpl implements PostService {
     public Post createPost(Long landlordId,Post post) {
         return landlordRepository.findById(landlordId).map(
                 landlord ->{landlord.addPost(post);
-                return postRepository.save(post);
+                    return postRepository.save(post);
                 }).orElseThrow(()->new ResourceNotFoundException(
                         "Landlord","Id",landlordId));
     }
@@ -68,7 +70,21 @@ public class PostServiceImpl implements PostService {
     public ResponseEntity<?> deletePost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()->new ResourceNotFoundException("Post","Id",postId));
+
+        Pageable pageable = PageRequest.of(0,1000);
+        Page<Review> reviewPage = reviewRepository.findByPostId(postId,pageable);
+        Page<Leaseholder> leaseholderPage = getAllLeaseholdersByPostId(postId,pageable);
+
+        if(reviewPage!=null)
+            reviewPage.forEach(review -> {reviewRepository.delete(review);});
+
+        if(leaseholderPage!=null)
+            leaseholderPage.forEach(leaseholder -> {
+                leaseholder.unAssignWith(post);
+            });
+
         postRepository.delete(post);
+
         return ResponseEntity.ok().build();
     }
 
