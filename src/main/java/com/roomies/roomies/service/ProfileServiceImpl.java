@@ -3,7 +3,7 @@ package com.roomies.roomies.service;
 import com.roomies.roomies.domain.model.PaymentMethod;
 import com.roomies.roomies.domain.model.Plan;
 import com.roomies.roomies.domain.model.Profile;
-import com.roomies.roomies.domain.model.Userr;
+import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.repository.PaymentMethodRepository;
 import com.roomies.roomies.domain.repository.PlanRepository;
 import com.roomies.roomies.domain.repository.ProfileRepository;
@@ -51,13 +51,13 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile createProfile(Long userId,Long planId,Profile profile) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(()->new ResourceNotFoundException("Plan","Id",planId));
-        Userr userr = userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
 
         Pageable pageable = PageRequest.of(0,10000);
         Page<Profile> profilePage= profileRepository.findAll(pageable);
         profilePage.forEach(profile1 -> {
-            if(profile1.getUser().equals(userr))
+            if(profile1.getUser().equals(user))
                 throw new ResourceNotFoundException("The user is associated to another profile");
         });
 
@@ -65,7 +65,7 @@ public class ProfileServiceImpl implements ProfileService {
         if(date.getYear()-profile.getBirthday().getYear()>18)
             throw new ResourceNotFoundException("The user have to be older than 18");
 
-        return profileRepository.save(profile.setUser(userr)
+        return profileRepository.save(profile.setUser(user)
         .setPlan(plan));
     }
 

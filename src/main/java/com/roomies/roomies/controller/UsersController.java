@@ -1,6 +1,6 @@
 package com.roomies.roomies.controller;
 
-import com.roomies.roomies.domain.model.Userr;
+import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.service.UserService;
 import com.roomies.roomies.resource.SaveUserResource;
 import com.roomies.roomies.resource.UserResource;
@@ -29,7 +29,7 @@ public class UsersController {
     @Operation(tags = {"users"})
     @GetMapping("/users")
     public Page<UserResource> getAllUsers(Pageable pageable){
-        Page<Userr> userPage = userService.getAllUsers(pageable);
+        Page<User> userPage = userService.getAllUsers(pageable);
         List<UserResource> resources = userPage.getContent().stream().map(
                 this::convertToResource).collect(Collectors.toList());
         return new PageImpl<>(resources,pageable,resources.size());
@@ -41,11 +41,11 @@ public class UsersController {
         return convertToResource(userService.createUser(convertToEntity(resource)));
     }
 
-    private Userr convertToEntity(SaveUserResource resource) {
-        return mapper.map(resource, Userr.class);
+    private User convertToEntity(SaveUserResource resource) {
+        return mapper.map(resource, User.class);
     }
 
-    private UserResource convertToResource(Userr entity){
+    private UserResource convertToResource(User entity){
         return mapper.map(entity, UserResource.class);
     }
 

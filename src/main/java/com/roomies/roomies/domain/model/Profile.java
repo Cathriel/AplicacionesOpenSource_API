@@ -60,7 +60,7 @@ public class Profile extends AuditModel {
     @OneToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "user_id",nullable = true)
     @JsonIgnore
-    private Userr userr;
+    private User user;
 
     public Profile() {
     }
@@ -192,12 +192,12 @@ public class Profile extends AuditModel {
         return this;
     }
 
-    public Userr getUser() {
-        return userr;
+    public User getUser() {
+        return user;
     }
 
-    public Profile setUser(Userr userr) {
-        this.userr = userr;
+    public Profile setUser(User user) {
+        this.user = user;
         return this;
     }
 }

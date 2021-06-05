@@ -51,20 +51,20 @@ public class LeaseholderServiceImpl implements LeaseholderService {
     public Leaseholder createLeaseholder(Long userId,Long planId,Leaseholder leaseholder) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(()->new ResourceNotFoundException("Plan","Id",planId));
-        Userr userr = userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
 
         Pageable pageable = PageRequest.of(0,10000);
         Page<Profile> profilePage= profileRepository.findAll(pageable);
         profilePage.forEach(profile -> {
-            if(profile.getUser().equals(userr))
+            if(profile.getUser().equals(user))
                 throw new ResourceNotFoundException("The user is associated to another profile");
         });
 
         Date date =  new Date();
         if(date.getYear()-leaseholder.getBirthday().getYear()>18)
             throw new ResourceNotFoundException("The user have to be older than 18");
-        leaseholder.setPlan(plan).setUser(userr);
+        leaseholder.setPlan(plan).setUser(user);
         return leaseholderRepository.save(leaseholder);
     }
 

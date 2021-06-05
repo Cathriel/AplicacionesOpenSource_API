@@ -37,54 +37,17 @@ public class UserServiceImplTest {
     private UserService userService;
 
     @TestConfiguration
-    static class UserServiceImplTestConfiguration{
+    static class UserServiceImplTestConfiguration {
         @Bean
-        public UserService userService(){
+        public UserService userService() {
             return new UserServiceImpl();
         }
 
         @Bean
-        public PaymentMethodService paymentMethodService()
-            {return new PaymentMethodServiceImpl(); }
+        public PaymentMethodService paymentMethodService() {
+            return new PaymentMethodServiceImpl();
+        }
     }
 
-
-    @Test
-    @DisplayName("When getUserByName With Valid Name Then Returns User")
-    public void whenGetUserByNameWithValidNameThenReturnsUser(){
-
-        //Arrange
-        String name= "Te odio IntelIJ >:c";
-        User user=new User().setId(1L).setName(name);
-
-        userRepository.save(user);
-
-        when(userRepository.findByName(name)).thenReturn(Optional.of(user));
-
-        //Act
-        User foundUser=userService.getUserByName(name);
-
-        //Assert
-        assertThat(foundUser.getName()).isEqualTo(name);
-    }
-
-    @Test
-    @DisplayName("When getUserByName With Invalid Name Then Returns Resource Not Found Exception")
-    public void whenGetUserByNameWithInvalidNameThenReturnsResourceNotFoundException(){
-        //Arrange
-        String name= "Te";
-        String template="Resource %s not found for %s with value %s";
-        when(userRepository.findByName(name)).thenReturn(Optional.empty());
-        String expectedMessage=String.format(template,"User","Name",name);
-
-        //Act
-        Throwable exception= catchThrowable(()->{
-            User foundUser=userService.getUserByName(name);
-        });
-
-        //Assert
-        assertThat(exception).isInstanceOf(ResourceNotFoundException.class)
-                .hasMessage(expectedMessage);
-    }
 
 }

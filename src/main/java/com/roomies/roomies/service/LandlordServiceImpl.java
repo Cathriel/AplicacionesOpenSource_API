@@ -61,20 +61,20 @@ public class LandlordServiceImpl implements LandlordService {
     public Landlord createLandlord(Long userId,Long planId,Landlord landlord) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(()->new ResourceNotFoundException("Plan","Id",planId));
-        Userr userr = userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
 
         Pageable pageable = PageRequest.of(0,10000);
         Page<Profile> profilePage= profileRepository.findAll(pageable);
         profilePage.forEach(profile -> {
-            if(profile.getUser().equals(userr))
+            if(profile.getUser().equals(user))
                 throw new ResourceNotFoundException("The user is associated to another profile");
         });
 
         Date date =  new Date();
         if(date.getYear()-landlord.getBirthday().getYear()>18)
             throw new ResourceNotFoundException("The user have to be older than 18");
-        landlord.setPlan(plan).setUser(userr);
+        landlord.setPlan(plan).setUser(user);
         return landlordRepository.save(landlord);
     }
 

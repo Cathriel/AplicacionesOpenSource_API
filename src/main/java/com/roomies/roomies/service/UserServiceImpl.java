@@ -1,6 +1,6 @@
 package com.roomies.roomies.service;
 
-import com.roomies.roomies.domain.model.Userr;
+import com.roomies.roomies.domain.model.User;
 import com.roomies.roomies.domain.repository.ProfileRepository;
 import com.roomies.roomies.domain.repository.UserRepository;
 import com.roomies.roomies.domain.service.UserService;
@@ -20,44 +20,44 @@ public class UserServiceImpl implements UserService {
     private ProfileRepository profileRepository;
 
     @Override
-    public Page<Userr> getAllUsers(Pageable pageable) {
+    public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
     @Override
-    public Userr getUserById(Long userId) {
+    public User getUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
     }
 
     @Override
-    public Userr createUser(Userr userr) {
+    public User createUser(User user) {
         Pageable pageable = PageRequest.of(0,10000);
-        Page<Userr> userPage = userRepository.findAll(pageable);
+        Page<User> userPage = userRepository.findAll(pageable);
 
         if(userPage!=null)
             userPage.forEach(user1 -> {
-                if(user1.getEmail().equals(userr.getEmail()))
+                if(user1.getEmail().equals(user.getEmail()))
                     throw new ResourceNotFoundException("There is already another user with the same email");
             });
 
-        return userRepository.save(userr);
+        return userRepository.save(user);
     }
 
     @Override
-    public Userr updateUser(Long userId, Userr userrRequest) {
-        Userr userr = userRepository.findById(userId)
+    public User updateUser(Long userId, User userRequest) {
+        User userr = userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
-        userr.setEmail(userrRequest.getEmail())
-                .setPassword(userrRequest.getPassword());
+        userr.setEmail(userRequest.getEmail())
+                .setPassword(userRequest.getPassword());
         return userRepository.save(userr);
     }
 
     @Override
     public ResponseEntity<?> deleteUser(Long userId) {
-        Userr userr = userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
-        userRepository.delete(userr);
+        userRepository.delete(user);
         return ResponseEntity.ok().build();
     }
 }
